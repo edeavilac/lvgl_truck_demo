@@ -1,8 +1,8 @@
-set(SOURCES src/lv_demo_truck.c)
+set(SOURCES src/lv_demo_truck.cpp)
 add_library(lv_demo_truck_ui ${SOURCES})
 
 target_compile_definitions(lv_demo_truck_ui PUBLIC LV_USE_DEMO_ECG)
-target_compile_features(lv_demo_truck_ui PUBLIC c_std_99)
+target_compile_features(lv_demo_truck_ui PUBLIC cxx_std_20)
 
 target_include_directories(
   lv_demo_truck_ui
@@ -10,4 +10,4 @@ target_include_directories(
          $<INSTALL_INTERFACE:include>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(lv_demo_truck_ui PUBLIC lvgl)
+target_link_libraries(lv_demo_truck_ui PUBLIC lvglpp)

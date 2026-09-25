@@ -10,12 +10,21 @@ include(dependencies)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# lvglpp: the C++ binding cpp-binding generates for the LVGL in lvgl/. Header-only -- every
+# definition in it is inline -- so it is an INTERFACE target, and the directory holding its
+# README is the include root: `#include "lv/lvgl.hpp"`. See lvglpp/README.md for how it was
+# generated.
+add_library(lvglpp INTERFACE)
+target_include_directories(lvglpp INTERFACE ${CMAKE_CURRENT_LIST_DIR}/lvglpp)
+target_link_libraries(lvglpp INTERFACE lvgl)
+target_compile_features(lvglpp INTERFACE cxx_std_20)
+
 add_subdirectory(ui)
 
-file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/*.c)
+file(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
 add_executable(lv_demo_truck ${SOURCES} ${ASSETS})
 
-target_compile_features(lv_demo_truck PUBLIC c_std_99)
+target_compile_features(lv_demo_truck PUBLIC cxx_std_20)
 
 if(CONFIG_LV_USE_GLTF)
   message(STATUS "Compiling with GLTF support")
